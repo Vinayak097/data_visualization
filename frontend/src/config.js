@@ -1,0 +1,1 @@
+export const backend_url="https://localhost:8000"

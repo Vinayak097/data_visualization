@@ -12,6 +12,7 @@ import ReapeaCust from './components/ReapeaCust'
 import GeographicalDestribut from './components/GeographicalDestribut'
 import LifeTimeValue from './components/LifeTimeValue'
 import TotalSalesChart from './components/TotalChart'
+import CustomerMap from './components/Map'
 
 
 function App() {
@@ -39,15 +40,15 @@ function App() {
   
   return (
     <>
-    <div className='flex'>
-      <div className='hidden lg:block'>
-      <Sidebar></Sidebar>
-      </div>
-            <div className={`  w-full mx-2 p-2 overflow-auto`}>
-        {renderChart()}
-        
-      </div>
-    </div>
+    <div className="flex">
+  <div className="hidden lg:block sticky top-0 h-screen">
+    <Sidebar />
+  </div>
+  <div className=" w-full mx-2 p-2 overflow-hidden">
+    
+    {renderChart()}
+  </div>
+</div>
     </>
   )
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Line } from 'react-chartjs-2'
+import { TimeScale } from 'chart.js';
 
 import {
   Chart as ChartJS,
@@ -9,8 +10,12 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
+
+import zoomPlugin from 'chartjs-plugin-zoom';
+
+// Registering components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -18,8 +23,11 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
-)
+  Legend,
+  zoomPlugin,
+  TimeScale
+);
+
 function Chart({chartData}) {
   return (
     <div className='w-full h-full'>
