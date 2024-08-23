@@ -39,7 +39,7 @@ function TotalSalesChart() {
     )
   }
   return (
-    <div>
+    <div className='font-serif'>
       <h2 className="text-xl font-bold mb-4">Total Sales Over Time</h2>
       <select className='shadow cursor-pointer p-2 '
         onChange={(e) => setInterval(e.target.value)}

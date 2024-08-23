@@ -40,7 +40,7 @@ function App() {
   
   return (
     <>
-    <div className="flex">
+    <div className="flex font-sans">
   <div className="hidden lg:block sticky top-0 h-screen">
     <Sidebar />
   </div>
