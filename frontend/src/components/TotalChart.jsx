@@ -1,40 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-  } from 'chart.js';
-import axios from 'axios';
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-)
-const TotalSalesChart = () => {
-  const [chartData, setChartData] = useState({});
-  const [interval,setInterval]=useState();
+import React, { useEffect, useState, useRef } from 'react';
+
+import { fetchTotalSales } from '../services/apiService';
+import Loading from './Loading';
+import Chart from './Chart';
+function TotalSalesChart() {
+  
+  const [interval, setInterval] = useState("monthly"); 
+  const [data,setChartData]=useState([]);
+  const [loading ,setloading]=useState()
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios.get('http://localhost:8000/api/total-sales',{
-            params: {
-              interval: interval
-            }
-      });
-
-      const data = result.data;
-      console.log(data);
-
+    const fetchAndRenderChart = async () => {
+      setloading(true)
+      const data = await fetchTotalSales(interval);
       setChartData({
         labels: data.map(item => item._id),
         datasets: [
@@ -47,35 +25,36 @@ const TotalSalesChart = () => {
           },
         ],
       });
+      setloading(false)
+      
     };
 
-    fetchData();
+    fetchAndRenderChart();
   }, [interval]);
-
-  return (
-    <div className='flex-1  flex-col'>
-        
-       
-        <div className='w-full flex mx-16 items-center'>
-            <label htmlFor="time">TimePeriod : </label>
-        <select id='time' name='time' className='oultline-none p-1  border-blue-400 float-start' onChange={(e)=>{setInterval(e.target.value)}}>
-            <option value="monthly">monthly</option>
-            <option value="daily">daily</option>
-            <option value="quarterly">quarterly</option>
-             <option value="yearly">yearly</option>
-            </select>
-
-        </div>
-
-        
-            <div className='w-full h-full'>
-            {chartData.labels && <Line data={chartData} />}
-            </div>
-        
-        </div>
+  if(loading){
+    return(
       
-    
+      <Loading></Loading>
+
+    )
+  }
+  return (
+    <div>
+      <h2 className="text-xl font-bold mb-4">Total Sales Over Time</h2>
+      <select className='shadow cursor-pointer p-2 '
+        onChange={(e) => setInterval(e.target.value)}
+        value={interval} 
+      >
+        <option value="monthly">Monthly</option>s
+        <option value="daily">Daily</option>
+        <option value="yearly">Yearly</option>
+        <option value="quarterly">Quarterly</option>
+      </select>
+      <Chart chartData={data}></Chart>
+      
+    </div>
   );
-};
+}
+
 
 export default TotalSalesChart;

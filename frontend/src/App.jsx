@@ -1,60 +1,53 @@
-import { useState } from 'react'
-import LineGraph from './components/LineGraph'
-import Pies from './components/Pie'
-import Bars from './components/Bar'
+
 import './App.css'
-import { Bar } from 'react-chartjs-2'
-import TotalSalesChart from './components/TotalChart'
+
 import Sidebar from './components/Sidebar'
 import { useRecoilValue } from 'recoil'
-import { sideboard } from './atoms/atoms'
+
 import { page } from './atoms/atoms'
 import SalesGrowthRate from './components/SalesGrowthRate'
-import NewCustomerRates from './components/NewCustomerRates'
+import NewCustomersOverTimeChart from './components/NewCustomerRates'
+
 import ReapeaCust from './components/ReapeaCust'
 import GeographicalDestribut from './components/GeographicalDestribut'
 import LifeTimeValue from './components/LifeTimeValue'
+import TotalSalesChart from './components/TotalChart'
 
 
 function App() {
-
-  const [count, setCount] = useState(0)
   const paged=useRecoilValue(page)
+  
+  const renderChart = () => {
+    switch (paged) {
+      case 1:
+        return <TotalSalesChart />;
+      case 2:
+        return <SalesGrowthRate />;
+      case 3:
+        return <NewCustomersOverTimeChart />;
+      case 4:
+        return <ReapeaCust />;
+      case 5:
+        return <GeographicalDestribut />;
+      case 6:
+        return <LifeTimeValue />;
+      default:
+        return <TotalSalesChart />;
+    }
+  };
   
   
   return (
     <>
-    {/* <LineGraph></LineGraph>    
-    
-    <Bars></Bars>
-    <Pies></Pies> */}
-    
     <div className='flex'>
+      <div className='hidden lg:block'>
       <Sidebar></Sidebar>
-      <div className={`${paged==1?"":"hidden" }  w-full`}>
-      <TotalSalesChart></TotalSalesChart>
       </div>
-       <div className={`${paged==2?"":"hidden" }  w-full`}>
-      <SalesGrowthRate></SalesGrowthRate>
+            <div className={`  w-full mx-2 p-2 overflow-auto`}>
+        {renderChart()}
+        
       </div>
-     <div className={`${paged==3?"":"hidden" }  w-full`}>
-      <NewCustomerRates></NewCustomerRates>
-      </div>
-      <div className={`${paged==4?"":"hidden" }  w-full`}>
-      <ReapeaCust></ReapeaCust>
-      </div>
-      <div className={`${paged==5?"":"hidden" }  w-full`}>
-      <GeographicalDestribut></GeographicalDestribut>
-      </div>
-      <div className={`${paged==6?"":"hidden" }  w-full`}>
-      <LifeTimeValue></LifeTimeValue>
-      </div>
-      
     </div>
-    
-
-
-    
     </>
   )
 }
