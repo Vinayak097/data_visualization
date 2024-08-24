@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://data-visualization-pi.vercel.app';
 
 export const fetchTotalSales = async (interval) => {
     console.log("interval ",interval)
